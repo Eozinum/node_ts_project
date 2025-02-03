@@ -1,8 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { formatMessage } from './formatMessage'
-import { LogLevel } from './logLevels'
-import { AppEnv } from './envTypes'
+import { LogLevel, AppEnv } from './enums'
+import { LOG_PATH } from './constants'
+import logEmitter from '../events/logEmitter'
 
 const APP_ENV =
   process.env.APP_ENV ??
@@ -11,7 +12,7 @@ const APP_ENV =
   })()
 
 export default class Logger {
-  constructor(private readonly logPath = 'logs/app.log') {
+  constructor(private readonly logPath = LOG_PATH) {
     this.init()
   }
 
@@ -27,13 +28,9 @@ export default class Logger {
     const formattedMsg = formatMessage(level, msg)
 
     if (APP_ENV === AppEnv.LOCAL) {
-      console.log(formattedMsg)
+      logEmitter.emitConsoleLog(formattedMsg)
     } else {
-      fs.appendFile(this.logPath, `${formattedMsg} \n`, (err) => {
-        if (err) {
-          console.error('Error while try to put data to file', err.message)
-        }
-      })
+      logEmitter.emitFileLog(formattedMsg, this.logPath)
     }
   }
 

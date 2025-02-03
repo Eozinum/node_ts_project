@@ -3,3 +3,9 @@ export enum AppEnv {
   DEV = 'development',
   PROD = 'production',
 }
+
+export enum LogLevel {
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error',
+}
