@@ -1,36 +1,17 @@
 import { EventEmitter } from 'node:events'
 import { EmitEventLogType } from './enums'
 import fs from 'node:fs'
+import { LogTransformerStream } from '../streams/transformerStream'
+import { LogLevel } from '../enums'
 
-// class LogEmitter extends EventEmitter {}
+export class LogEmitter extends EventEmitter {
+  private logStream: fs.WriteStream
+  private transformer: LogTransformerStream
 
-// const logEmitter = new LogEmitter()
-
-// logEmitter.on(EmitEventLogType.CONSOLE, (msg: string) => {
-//   console.log(msg)
-// })
-
-// logEmitter.on(EmitEventLogType.FILE, (msg: string, path: string) =>
-//   setImmediate(() => {
-//     fs.appendFile(path, `${msg} \n`, (err) => {
-//       if (err) {
-//         console.error('Error while try to put data to file', err.message)
-//       }
-//     })
-//   }),
-// )
-
-// export const emitConsoleLog = (msg: string) => {
-//   logEmitter.emit(EmitEventLogType.CONSOLE, msg)
-// }
-
-// export const emitFileLog = (msg: string, path: string) => {
-//   logEmitter.emit(EmitEventLogType.FILE, msg, path)
-// }
-
-class LogEmitter extends EventEmitter {
-  constructor() {
+  constructor(private readonly logPath: string) {
     super()
+    this.logStream = fs.createWriteStream(this.logPath, { flags: 'a' })
+    this.transformer = new LogTransformerStream()
     this.setupListeners()
   }
 
@@ -39,26 +20,15 @@ class LogEmitter extends EventEmitter {
       console.log(msg)
     })
 
-    this.on(EmitEventLogType.FILE, (msg: string, path: string) =>
-      setImmediate(() => {
-        fs.appendFile(path, `${msg} \n`, (err) => {
-          if (err) {
-            console.error('Error while trying to write data to file', err.message)
-          }
-        })
-      }),
-    )
+    this.on(EmitEventLogType.FILE, (msg: string, level: LogLevel) => this.transformer.write({ message: msg, level }))
+    this.transformer.pipe(this.logStream)
   }
 
   public emitConsoleLog(msg: string) {
     this.emit(EmitEventLogType.CONSOLE, msg)
   }
 
-  public emitFileLog(msg: string, path: string) {
-    this.emit(EmitEventLogType.FILE, msg, path)
+  public emitFileLog(msg: string, type: LogLevel) {
+    this.emit(EmitEventLogType.FILE, msg, type)
   }
 }
-
-const logEmitter = new LogEmitter()
-
-export default logEmitter

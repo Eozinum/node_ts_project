@@ -1,9 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { formatMessage } from './formatMessage'
-import { LogLevel, AppEnv } from './enums'
+import { formatMessage } from '../utils/formatMessage'
+import { LogLevel, AppEnv } from '../enums'
 import { LOG_PATH } from './constants'
-import logEmitter from '../events/logEmitter'
+import { LogEmitter } from '../events/logEmitter'
 
 const APP_ENV =
   process.env.APP_ENV ??
@@ -12,8 +12,11 @@ const APP_ENV =
   })()
 
 export default class Logger {
+  private logEmitter: LogEmitter
+
   constructor(private readonly logPath = LOG_PATH) {
     this.init()
+    this.logEmitter = new LogEmitter(this.logPath)
   }
 
   private init() {
@@ -28,9 +31,9 @@ export default class Logger {
     const formattedMsg = formatMessage(level, msg)
 
     if (APP_ENV === AppEnv.LOCAL) {
-      logEmitter.emitConsoleLog(formattedMsg)
+      this.logEmitter.emitConsoleLog(formattedMsg)
     } else {
-      logEmitter.emitFileLog(formattedMsg, this.logPath)
+      this.logEmitter.emitFileLog(formattedMsg, level)
     }
   }
 

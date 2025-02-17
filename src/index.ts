@@ -16,7 +16,7 @@ console.log('Hello World 2')
 
 // await sleep(5000)
 
-// logger.error('Error message without Error instance')
+logger.error('Error message without Error instance')
 
 // await sleep2(3000)
 
