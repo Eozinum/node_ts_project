@@ -13,6 +13,9 @@ export const formatMessage = (level: LogLevel, msg: string | Error) => {
     case LogLevel.INFO:
       return chalk.blue(`[${timeStamp}], INFO: ${msg}`)
 
+    case LogLevel.DEBUG:
+      return chalk.green(`[${timeStamp}], DEBUG: ${msg}`)
+
     case LogLevel.WARNING:
       return chalk.yellow(`[${timeStamp}], WARNING: ${msg}`)
 

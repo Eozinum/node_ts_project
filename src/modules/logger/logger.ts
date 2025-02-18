@@ -25,7 +25,7 @@ class Logger {
   private log(level: LogLevel, msg: string | Error) {
     const formattedMsg = formatMessage(level, msg)
 
-    if (APP_ENV === AppEnv.LOCAL) {
+    if (APP_ENV === AppEnv.LOCAL || level === LogLevel.DEBUG) {
       this.logEmitter.emitConsoleLog(formattedMsg)
     } else {
       this.logEmitter.emitFileLog(formattedMsg, level)
@@ -42,6 +42,10 @@ class Logger {
 
   public error(msg: string | Error) {
     this.log(LogLevel.ERROR, msg)
+  }
+
+  public debug(msg: string | Error) {
+    this.log(LogLevel.DEBUG, msg)
   }
 }
 
