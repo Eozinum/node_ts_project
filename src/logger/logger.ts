@@ -4,15 +4,10 @@ import { formatMessage } from '../utils/formatMessage'
 import { LogLevel, AppEnv } from '../enums'
 import { LOG_PATH } from './constants'
 import { LogEmitter } from '../events/logEmitter'
+import { APP_ENV } from '../utils/envVariables'
 
-const APP_ENV =
-  process.env.APP_ENV ??
-  (() => {
-    throw new Error('APP_ENV is not set')
-  })()
-
-export default class Logger {
-  private logEmitter: LogEmitter
+class Logger {
+  readonly logEmitter: LogEmitter
 
   constructor(private readonly logPath = LOG_PATH) {
     this.init()
@@ -49,3 +44,5 @@ export default class Logger {
     this.log(LogLevel.ERROR, msg)
   }
 }
+
+export const logger = new Logger()

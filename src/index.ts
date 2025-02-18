@@ -1,35 +1,9 @@
 import { server } from './server/server'
+import { logger } from './logger/logger'
+import { APP_PORT } from './utils/envVariables'
 
-const PORT = 3000
-
-server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
+server.listen(APP_PORT, () => {
+  console.log(`Server running on http://localhost:${APP_PORT}`)
 })
 
-// import Logger from './logger/logger'
-// import { sleep, sleep2 } from './utils/sleeper'
-
-// const logger = new Logger()
-
-// console.log('Hello World')
-
-// logger.warning('Warning message')
-// logger.error(new Error('Error name'))
-
-// await sleep(1000)
-
-// logger.info('Info message')
-
-// console.log('Hello World 2')
-
-// await sleep(5000)
-
 logger.error('Error message without Error instance')
-
-// await sleep2(3000)
-
-// logger.info('Info message 666')
-
-// await sleep2(2000)
-
-// logger.warning('We want more logs!!!')
