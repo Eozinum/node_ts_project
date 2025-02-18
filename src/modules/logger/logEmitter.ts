@@ -1,12 +1,12 @@
 import { EventEmitter } from 'node:events'
 import { EmitEventLogType } from './enums'
 import fs from 'node:fs'
-import { LogTransformerStream } from '../streams/transformerStream'
-import { LogLevel } from '../enums'
+import { LogTransformerStream } from './transformerStream'
+import { LogLevel } from '../../enums'
 
 export class LogEmitter extends EventEmitter {
-  private logStream: fs.WriteStream
-  private transformer: LogTransformerStream
+  readonly logStream: fs.WriteStream
+  readonly transformer: LogTransformerStream
 
   constructor(private readonly logPath: string) {
     super()

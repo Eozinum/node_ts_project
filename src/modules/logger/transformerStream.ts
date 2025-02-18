@@ -1,6 +1,6 @@
 import { Transform } from 'node:stream'
-import { LogLevel } from '../enums'
-import { formatMessage } from '../utils/formatMessage'
+import { LogLevel } from '../../enums'
+import { formatMessage } from './formatMessage'
 
 export class LogTransformerStream extends Transform {
   constructor() {

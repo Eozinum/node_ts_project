@@ -1,10 +1,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { formatMessage } from '../utils/formatMessage'
-import { LogLevel, AppEnv } from '../enums'
+import { formatMessage } from './formatMessage'
+import { LogLevel, AppEnv } from '../../enums'
 import { LOG_PATH } from './constants'
-import { LogEmitter } from '../events/logEmitter'
-import { APP_ENV } from '../utils/envVariables'
+import { LogEmitter } from './logEmitter'
+import { APP_ENV } from '../../utils/envVariables'
 
 class Logger {
   readonly logEmitter: LogEmitter

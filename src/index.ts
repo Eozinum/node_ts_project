@@ -1,5 +1,5 @@
 import { server } from './server/server'
-import { logger } from './logger/logger'
+import { logger } from './modules/logger/logger'
 import { APP_PORT } from './utils/envVariables'
 
 server.listen(APP_PORT, () => {

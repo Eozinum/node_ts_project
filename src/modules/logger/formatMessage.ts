@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { LogLevel } from '../enums'
+import { LogLevel } from '../../enums'
 
 export const formatMessage = (level: LogLevel, msg: string | Error) => {
   const timeStamp = new Date().toISOString()
