@@ -1,18 +1,26 @@
-import Logger from './logger/logger'
+import { server } from './server/server'
+
+const PORT = 3000
+
+server.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`)
+})
+
+// import Logger from './logger/logger'
 // import { sleep, sleep2 } from './utils/sleeper'
 
-const logger = new Logger()
+// const logger = new Logger()
 
-console.log('Hello World')
+// console.log('Hello World')
 
-logger.warning('Warning message')
+// logger.warning('Warning message')
 // logger.error(new Error('Error name'))
 
 // await sleep(1000)
 
-logger.info('Info message')
+// logger.info('Info message')
 
-console.log('Hello World 2')
+// console.log('Hello World 2')
 
 // await sleep(5000)
 
